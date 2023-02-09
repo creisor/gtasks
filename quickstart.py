@@ -50,9 +50,11 @@ def main():
         print('Task lists:')
         for item in items:
             print(u'{0} ({1})'.format(item['title'], item['id']))
+            t = service.tasks().list(tasklist=item['id']).execute()
+            print(t)
+
     except HttpError as err:
         print(err)
-
 
 if __name__ == '__main__':
     main()
