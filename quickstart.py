@@ -50,8 +50,21 @@ def main():
         print('Task lists:')
         for item in items:
             print(u'{0} ({1})'.format(item['title'], item['id']))
-            t = service.tasks().list(tasklist=item['id']).execute()
-            print(t)
+            t = service.tasks().list(tasklist=item['id'], showCompleted=True, showDeleted=True).execute()
+            if t['items']:
+                for task in t['items']:
+                    msg = ''
+                    try:
+                        if task['deleted']:
+                            msg += '[COMPLETED] '
+                    except KeyError:
+                        pass
+                    if task['title']:
+                        msg += f'"{task["title"]}"'
+                        print(msg)
+            else:
+                print(f'No tasks found for {item["title"]}')
+            print()
 
     except HttpError as err:
         print(err)

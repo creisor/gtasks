@@ -1,3 +1,16 @@
+Metadata-Version: 2.1
+Name: gtasks
+Version: 0.0.1
+Summary: A commandline interface for Google Tasks
+Author-email: Chris Reisor <creisor@gmail.com>
+Project-URL: Homepage, https://github.com/creisor/gtasks
+Project-URL: Bug Tracker, https://github.com/creisor/gtasks/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
 # gtasks
 
 A commandline tool for managing my tasks.
