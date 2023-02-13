@@ -18,7 +18,12 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: MacOS",
 ]
-dependencies = ['Click']
+dependencies = [
+  'Click',
+  'google-api-python-client',
+  'google-auth-httplib2',
+  'google-auth-oauthlib',
+]
 
 [project.scripts]
 gtasks = "gtasks.app:main"
