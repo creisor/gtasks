@@ -1,5 +1,6 @@
 import click
 
+# internal packages
 from ..src import tasklist
 
 @click.command()
@@ -8,9 +9,13 @@ from ..src import tasklist
 def view(yesterday, all_tasks):
     """Allows you to view tasks in your list(s)"""
 
+    tasklists = tasklist.get_tasklists()
+    print(tasklists)
+    import pdb; pdb.set_trace()
+
     if all_tasks:
-        print(f'view all tasks')
+        print('view all')
     elif yesterday:
-        print(f'view yesterday')
+        print('view yesterday')
     else:
-        print(f'view today')
+        print('view today')
