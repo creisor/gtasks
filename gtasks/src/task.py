@@ -6,6 +6,7 @@ class Task(object):
     def name(self):
         return self.item['title']
 
+    @property
     def is_complete(self):
         try:
             if self.item['deleted']:
@@ -14,3 +15,11 @@ class Task(object):
             return False
 
         return False
+
+    def print(self):
+        msg = ''
+        if self.is_complete:
+            msg += '[COMPLETE] '
+        msg += self.name
+
+        print(msg)

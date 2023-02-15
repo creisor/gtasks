@@ -1,3 +1,7 @@
+import datetime
+import time
+import logging
+
 from functools import lru_cache
 from googleapiclient.discovery import build
 
@@ -9,9 +13,11 @@ from .task import Task
 def get_tasklists():
     tasklists = []
 
+    logging.info('authenticating')
     credentials = auth.authenticate()
 
     service = build('tasks', 'v1', credentials=credentials)
+    logging.info('getting tasklists')
     results = service.tasklists().list(maxResults=50).execute()
     items = results.get('items', [])
 
@@ -25,6 +31,7 @@ def get_tasklists():
 
 def get_tasks(service, tasklist):
     tasks = []
+    logging.info(f'getting tasks for {tasklist["title"]}')
     items = service.tasks().list(tasklist=tasklist['id'], showCompleted=True, showDeleted=True).execute()
     for item in items['items']:
         tasks.append(Task(item))
@@ -37,6 +44,6 @@ class TaskList(object):
         self.name = name
         self.tasks = []
 
-    #@property
-    #def tasks(self):
-    #    pass
+    @property
+    def date(self):
+        return datetime.date(*(time.strptime(self.name, '%m/%d/%Y')[0:3]))

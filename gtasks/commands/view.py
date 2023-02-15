@@ -1,4 +1,6 @@
 import click
+import datetime
+import logging
 
 # internal packages
 from ..src import tasklist
@@ -10,12 +12,17 @@ def view(yesterday, all_tasks):
     """Allows you to view tasks in your list(s)"""
 
     tasklists = tasklist.get_tasklists()
-    print(tasklists)
-    import pdb; pdb.set_trace()
+
+    today = datetime.date.today()
 
     if all_tasks:
         print('view all')
+
     elif yesterday:
-        print('view yesterday')
+        tasklists.reverse()
+        y = [t for t in tasklists if (today - t.date).days == 1]
+        for task in y.tasks:
+            task.print()
+
     else:
         print('view today')
