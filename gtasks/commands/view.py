@@ -21,7 +21,10 @@ def view(yesterday, all_tasks):
     elif yesterday:
         tasklists.reverse()
         y = [t for t in tasklists if (today - t.date).days == 1]
-        for task in y.tasks:
+        l = y[0]
+        print(l.name)
+        print('----')
+        for task in l.tasks:
             task.print()
 
     else:

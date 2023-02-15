@@ -11,6 +11,7 @@ from .task import Task
 
 @lru_cache
 def get_tasklists():
+    # TODO: add a name param and only fetch the named one if there's a name, else fetch them all
     tasklists = []
 
     logging.info('authenticating')
@@ -22,6 +23,8 @@ def get_tasklists():
     items = results.get('items', [])
 
     for item in items:
+        if item['title'] == 'My Tasks':
+            continue
         tl = TaskList(item['title'])
         tl.tasks = get_tasks(service, item)
 
@@ -34,6 +37,7 @@ def get_tasks(service, tasklist):
     logging.info(f'getting tasks for {tasklist["title"]}')
     items = service.tasks().list(tasklist=tasklist['id'], showCompleted=True, showDeleted=True).execute()
     for item in items['items']:
+        import pdb; pdb.set_trace()
         tasks.append(Task(item))
 
     return tasks
