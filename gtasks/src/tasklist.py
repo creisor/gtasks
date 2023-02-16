@@ -19,7 +19,7 @@ def get_tasklists():
 
     service = build('tasks', 'v1', credentials=credentials)
     logging.info('getting tasklists')
-    results = service.tasklists().list(maxResults=50).execute()
+    results = service.tasklists().list(maxResults=31).execute()
     items = results.get('items', [])
 
     for item in items:
@@ -35,9 +35,13 @@ def get_tasklists():
 def get_tasks(service, tasklist):
     tasks = []
     logging.info(f'getting tasks for {tasklist["title"]}')
-    items = service.tasks().list(tasklist=tasklist['id'], showCompleted=True, showDeleted=True).execute()
+    items = service.tasks().list(
+        tasklist=tasklist['id'],
+        showCompleted=True,
+        showDeleted=True,
+        showHidden=True,
+    ).execute()
     for item in items['items']:
-        import pdb; pdb.set_trace()
         tasks.append(Task(item))
 
     return tasks

@@ -40,7 +40,7 @@ def main():
         service = build('tasks', 'v1', credentials=creds)
 
         # Call the Tasks API
-        results = service.tasklists().list(maxResults=10).execute()
+        results = service.tasklists().list(maxResults=30).execute()
         items = results.get('items', [])
 
         if not items:
@@ -50,7 +50,7 @@ def main():
         print('Task lists:')
         for item in items:
             print(u'{0} ({1})'.format(item['title'], item['id']))
-            t = service.tasks().list(tasklist=item['id'], showCompleted=True, showDeleted=True).execute()
+            t = service.tasks().list(tasklist=item['id'], showCompleted=True, showDeleted=True, showHidden=True).execute()
             if t['items']:
                 for task in t['items']:
                     msg = ''

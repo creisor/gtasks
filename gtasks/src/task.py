@@ -22,6 +22,4 @@ class Task(object):
             msg += '[COMPLETE] '
         msg += self.name
 
-        import pdb; pdb.set_trace()
-
         print(msg)
