@@ -25,11 +25,12 @@ class Task(object):
 
     def print(self, standup=False):
         msg = ''
-        if self.is_complete and standup:
+        if self.is_complete and not standup:
             msg += '[COMPLETE] '
         if standup:
-            msg += '* '
-            msg += re.sub(r'(?P<ticket>[A-Z]{3,}-\d{3,})', '`\g<ticket>`', self.name)
+            if not self.name.startswith('*'):
+                msg += '* '
+            msg += re.sub(r'(?P<ticket>[A-Z]{3,}-\d{3,} )', '`\g<ticket>`', self.name)
         else:
             msg += self.name
 
