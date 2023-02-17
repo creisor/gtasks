@@ -10,7 +10,7 @@ from ..src import auth
 from .task import Task
 
 @lru_cache
-def get_tasklists():
+def get_tasklists(name=''):
     # TODO: add a name param and only fetch the named one if there's a name, else fetch them all
     tasklists = []
 
@@ -23,8 +23,12 @@ def get_tasklists():
     items = results.get('items', [])
 
     for item in items:
+        logging.debug(f'item: {item}')
         if item['title'] == 'My Tasks':
             continue
+        if name:
+            if item['title'] != name:
+                continue
         tl = TaskList(item['title'])
         tl.tasks = get_tasks(service, item)
 
@@ -42,6 +46,7 @@ def get_tasks(service, tasklist):
         showHidden=True,
     ).execute()
     for item in items['items']:
+        logging.debug(f'item: {item}')
         tasks.append(Task(item))
 
     return tasks
@@ -55,3 +60,9 @@ class TaskList(object):
     @property
     def date(self):
         return datetime.date(*(time.strptime(self.name, '%m/%d/%Y')[0:3]))
+
+    def print(self, standup=False):
+        if not standup:
+            print(f'{self.name}\n---')
+        for task in self.tasks:
+            task.print(standup)
