@@ -12,3 +12,10 @@ Under `Credentials` --> `OAuth 2.0 Client IDs` --> `gtasks-oauth-2.0` click the 
 ## API Reference
 
 https://developers.google.com/tasks/v1/reference
+
+## Development
+
+~~```
+. ./venv/bin/activate
+pip3 install --editable .
+```
