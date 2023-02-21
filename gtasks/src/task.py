@@ -30,7 +30,7 @@ class Task(object):
         if standup:
             if not self.name.startswith('*'):
                 msg += '* '
-            msg += re.sub(r'(?P<ticket>[A-Z]{3,}-\d{3,} )', '`\g<ticket>`', self.name)
+            msg += re.sub(r'(?P<ticket>[A-Z]{3,}-\d{3,}) ', '`\g<ticket>`', self.name)
         else:
             msg += self.name
 
