@@ -42,7 +42,8 @@ def get_tasks(service, tasklist):
     items = service.tasks().list(
         tasklist=tasklist['id'],
         showCompleted=True,
-        showDeleted=True,
+        # I think sometimes completed tasks show up as deleted
+        #showDeleted=True,
         showHidden=True,
     ).execute()
     for item in items['items']:
