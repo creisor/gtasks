@@ -9,6 +9,12 @@ class Task(object):
         return self.item['title']
 
     @property
+    def is_personal(self):
+        if self.item['title'].startswith('personal'):
+            return True
+        return False
+
+    @property
     def is_complete(self):
         try:
             if self.item['deleted']:
@@ -23,14 +29,15 @@ class Task(object):
 
         return False
 
-    def print(self, standup=False):
+    def print(self, standup=False, personal=False):
+        if self.is_personal and not personal:
+            return
+
         msg = ''
-        if self.is_complete and not standup:
-            msg += '[COMPLETE] '
         if standup:
             if not self.name.startswith('*'):
                 msg += '* '
-            msg += re.sub(r'(?P<ticket>[A-Z]{3,}-\d{3,}) ', '`\g<ticket>`', self.name)
+            msg += re.sub(r'(?P<ticket>[A-Z]{3,}-\d{3,}) ', '`\g<ticket>` ', self.name)
         else:
             msg += self.name
 
