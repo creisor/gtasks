@@ -15,7 +15,7 @@ https://developers.google.com/tasks/v1/reference
 
 ## Development
 
-~~```
+```
 . ./venv/bin/activate
 pip3 install --editable .
 ```
