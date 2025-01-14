@@ -2,8 +2,10 @@ import click
 import logging
 import sys
 from datetime import date, timedelta
+from googleapiclient.discovery import build
 
 # internal packages
+from ..src import auth
 from ..src import tasklist
 
 @click.command()
@@ -23,16 +25,19 @@ def view(yesterday, list_date, all_tasks, standup):
     else:
         tasklist_name = today.strftime('%m/%d/%Y')
 
+    logging.info('authenticating')
+    credentials = auth.authenticate()
+    service = build('tasks', 'v1', credentials=credentials)
 
     if all_tasks:
-        tasklists = tasklist.get_tasklists()
+        tasklists = tasklist.get_tasklists(service)
 
         for tl in tasklists:
             tl.print(standup)
 
     else:
         try:
-            tl = tasklist.get_tasklists(tasklist_name)[0]
+            tl = tasklist.get_tasklists(service, tasklist_name)[0]
         except IndexError:
             print(f'I tried, but found no task entitled {tasklist_name}')
             sys.exit(0)

@@ -4,7 +4,7 @@ import logging
 
 # for CLI
 import click
-from .commands import view
+from .commands import view, choose
 
 #LOGLEVEL = logging.WARN
 
@@ -18,9 +18,10 @@ def cli(verbose):
     pass
 
 cli.add_command(view.view)
+cli.add_command(choose.choose)
 
 def main():
-    cli()
+    cli(auto_envvar_prefix='GTASKS')
 
 
 if __name__ == '__main__':
