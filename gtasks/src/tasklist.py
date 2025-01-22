@@ -3,21 +3,16 @@ import time
 import logging
 
 from functools import lru_cache
-from googleapiclient.discovery import build
 
 # internal packages
 from ..src import auth
 from .task import Task
 
 @lru_cache
-def get_tasklists(name=''):
+def get_tasklists(service, name=''):
     # TODO: add a name param and only fetch the named one if there's a name, else fetch them all
     tasklists = []
 
-    logging.info('authenticating')
-    credentials = auth.authenticate()
-
-    service = build('tasks', 'v1', credentials=credentials)
     logging.info('getting tasklists')
     results = service.tasklists().list(maxResults=31).execute()
     items = results.get('items', [])
@@ -29,7 +24,7 @@ def get_tasklists(name=''):
         if name:
             if item['title'] != name:
                 continue
-        tl = TaskList(item['title'])
+        tl = TaskList(item['title'], item['id'])
         tl.tasks = get_tasks(service, item)
 
         tasklists.append(tl)
@@ -54,8 +49,9 @@ def get_tasks(service, tasklist):
 
 
 class TaskList(object):
-    def __init__(self, name):
+    def __init__(self, name, tl_id):
         self.name = name
+        self.id = tl_id
         self.tasks = []
 
     @property

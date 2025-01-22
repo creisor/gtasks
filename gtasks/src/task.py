@@ -33,12 +33,4 @@ class Task(object):
         if self.is_personal and not personal:
             return
 
-        msg = ''
-        if standup:
-            if not self.name.startswith('*'):
-                msg += '* '
-            msg += re.sub(r'(?P<ticket>[A-Z]{3,}-\d{3,}) ', '`\g<ticket>` ', self.name)
-        else:
-            msg += self.name
-
-        print(msg)
+        print(self.name)
